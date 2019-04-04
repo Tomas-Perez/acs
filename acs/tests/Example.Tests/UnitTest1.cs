@@ -1,8 +1,7 @@
-using System;
 using acs.Example;
 using Xunit;
 
-namespace acs
+namespace acs.tests.Example.Tests
 {
     public class UnitTest1
     {
