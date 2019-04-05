@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using acs.Exception;
 
 namespace acs.Model
 {
@@ -7,20 +9,19 @@ namespace acs.Model
     public class Group
     {
         public Guid Id { get; }
-        private string Name { get; }
-        private Guid Owner { get; }
-        private List<Guid> Members { get; }
+        public string Name { get; }
+        public Guid Owner { get; }
+        public ImmutableList<Guid> Members { get; }
         
         public Group(string name, Guid owner)
         {
             this.Id = Guid.NewGuid();
             this.Name = name;
             this.Owner = owner;
-            this.Members = new List<Guid>();
-            Members.Add(owner);
+            this.Members = ImmutableList<Guid>.Empty.Add(owner);
         }
 
-        private Group(Guid id, string name, Guid owner, List<Guid> members)
+        private Group(Guid id, string name, Guid owner, ImmutableList<Guid> members)
         {
             this.Id = id;
             this.Name = name;
@@ -30,27 +31,28 @@ namespace acs.Model
 
         public Group UpdateName(string newName)
         {
-            return new Group(Id, newName, Owner, new List<Guid>(Members));
+            return new Group(Id, newName, Owner, Members);
         }
 
         public Group UpdateOwner(Guid newOwner)
         {
-            return new Group(Id, Name, newOwner, new List<Guid>(Members));
+            if (!Contains(newOwner)) throw new NotFoundException("Member is not in the group.");
+            return new Group(Id, Name, newOwner, Members);
         }
 
         public Group AddMember(Guid newMember)
         {
-            var list = new List<Guid>(Members) {newMember};
-            return new Group(Id, Name, Owner, list);
+            if (Contains(newMember)) throw new ConflictException("Member is already in the group.");
+            return new Group(Id, Name, Owner, Members.Add(newMember));
         }
 
         public Group RemoveMember(Guid member)
         {
-            var list = new List<Guid>(Members);
-            list.Remove(member);
+            if (!Contains(member)) throw new NotFoundException("Member is not in the group.");
+            var list = Members.Remove(member);
             if (list.Count == 0)
             {
-                return new Group(Id, Name, Guid.Empty, list); //could be improved
+                return new Group(Id, Name, Guid.Empty, list);
             }
             return member == Owner ? new Group(Id, Name, list[0], list) : new Group(Id, Name, Owner, list);
         }
@@ -58,6 +60,11 @@ namespace acs.Model
         public bool IsEmpty()
         {
             return Owner == Guid.Empty;
+        }
+
+        public bool Contains(Guid member)
+        {
+            return Members.Contains(member);
         }
     }
 }
