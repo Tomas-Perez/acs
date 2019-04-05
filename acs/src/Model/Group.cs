@@ -7,11 +7,11 @@ namespace acs.Model
     public class Group
     {
         public Guid Id { get; }
-        private String Name { get; }
+        private string Name { get; }
         private Guid Owner { get; }
         private List<Guid> Members { get; }
         
-        public Group(String name, Guid owner)
+        public Group(string name, Guid owner)
         {
             this.Id = Guid.NewGuid();
             this.Name = name;
@@ -20,7 +20,7 @@ namespace acs.Model
             Members.Add(owner);
         }
 
-        private Group(Guid id, String name, Guid owner, List<Guid> members)
+        private Group(Guid id, string name, Guid owner, List<Guid> members)
         {
             this.Id = id;
             this.Name = name;
@@ -28,7 +28,7 @@ namespace acs.Model
             this.Members = members;
         }
 
-        public Group UpdateName(String newName)
+        public Group UpdateName(string newName)
         {
             return new Group(Id, newName, Owner, new List<Guid>(Members));
         }
@@ -52,11 +52,7 @@ namespace acs.Model
             {
                 return new Group(Id, Name, Guid.Empty, list); //could be improved
             }
-            if (member == Owner)
-            {
-                return new Group(Id, Name, list[0], list);
-            }
-            return new Group(Id, Name, Owner, list);
+            return member == Owner ? new Group(Id, Name, list[0], list) : new Group(Id, Name, Owner, list);
         }
 
         public bool IsEmpty()
