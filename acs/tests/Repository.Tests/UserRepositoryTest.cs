@@ -12,7 +12,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test1_InitializedShouldBeEmpty()
         {
-            var repository = new UserRepository();
+            var repository = new UserRepositoryInMemory();
             
             Assert.Empty(repository.All());
         }
@@ -20,7 +20,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test2_UserAddedAllShouldNotBeEmpty()
         {
-            var repository = new UserRepository();
+            var repository = new UserRepositoryInMemory();
             
             repository.Add(new User("Mark", "mark@marko.com", "1234"));
             Assert.NotEmpty(repository.All());
@@ -30,7 +30,7 @@ namespace acs.tests.Repository.Tests
         public void Test3_LoneUserIsRemovedAllShouldBeEmpty()
         {
             var user = new User("Mark", "mark@marko.com", "1234");
-            var repository = new UserRepository();
+            var repository = new UserRepositoryInMemory();
             
             repository.Add(user);
             repository.Remove(user.Id);
@@ -40,7 +40,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test4_TryingToRemoveMissingUserShouldThrowNotFoundException()
         {
-            var repository = new UserRepository();
+            var repository = new UserRepositoryInMemory();
             Assert.Throws<NotFoundException>(() => repository.Remove(Guid.NewGuid()));
         }
 
@@ -48,7 +48,7 @@ namespace acs.tests.Repository.Tests
         public void Test5_AddingAnExistingUserShouldThrowConflictException()
         {
             var user = new User("Mark", "mark@marko.com", "1234");
-            var repository = new UserRepository();
+            var repository = new UserRepositoryInMemory();
             
             repository.Add(user);
             Assert.Throws<ConflictException>(() => repository.Add(user));
@@ -59,7 +59,7 @@ namespace acs.tests.Repository.Tests
         {
             var user = new User("Mark", "mark@marko.com", "1234");
             var updated = new User(user.Id, "Mark", "mark@marko.com.ar", "1234");
-            var repository = new UserRepository();
+            var repository = new UserRepositoryInMemory();
             
             repository.Add(user);
             repository.Update(updated);
@@ -70,7 +70,7 @@ namespace acs.tests.Repository.Tests
         public void Test6_UpdatingAMissingUserShouldThrowNotFoundException()
         {
             var user = new User("Mark", "mark@marko.com", "1234");
-            var repository = new UserRepository();
+            var repository = new UserRepositoryInMemory();
             
             Assert.Throws<NotFoundException>(() => repository.Update(user));
         }
@@ -79,7 +79,7 @@ namespace acs.tests.Repository.Tests
         public void Test7_GetByExistingUserIdShouldReturnUser()
         {
             var user = new User("Mark", "mark@marko.com", "1234");
-            var repository = new UserRepository();
+            var repository = new UserRepositoryInMemory();
 
             repository.Add(user);
             var savedUser = repository.Get(user.Id);
@@ -90,7 +90,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test8_GetByMissingUserIdShouldThrowNotFoundException()
         {
-            var repository = new UserRepository();
+            var repository = new UserRepositoryInMemory();
 
             Assert.Throws<NotFoundException>(() => repository.Get(Guid.NewGuid()));
         }

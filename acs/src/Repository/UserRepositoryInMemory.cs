@@ -6,7 +6,7 @@ using acs.Model;
 
 namespace acs.Repository
 {
-    public class UserRepository
+    public class UserRepositoryInMemory : IUserRepository
     {
         private readonly Dictionary<Guid, User> _users = new Dictionary<Guid, User>();
 
@@ -46,5 +46,17 @@ namespace acs.Repository
             if (value == null) throw new NotFoundException();
             else return value;
         }
+    }
+}
+
+namespace acs.Repository
+{
+    public interface IUserRepository
+    {
+        List<User> All();
+        void Add(User user);
+        void Update(User user);
+        void Remove(Guid id);
+        User Get(Guid id);
     }
 }

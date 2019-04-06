@@ -7,9 +7,9 @@ namespace acs.Service
 {
     public class UserService
     {
-        private readonly UserRepository _repository;
+        private readonly IUserRepository _repository;
 
-        public UserService(UserRepository repository)
+        public UserService(IUserRepository repository)
         {
             _repository = repository;
         }
@@ -17,10 +17,10 @@ namespace acs.Service
         public void Register(UserForm form)
         {
             if (form.Password != form.ConfirmPassword) throw new ArgumentException("Passwords do not match");
-            if (IsValidEmail(form.Email)) throw new ArgumentException("Invalid email");
+            if (!IsValidEmail(form.Email)) throw new ArgumentException("Invalid email");
             
             var sameEmailIdx = _repository.All().FindIndex(u => u.Email == form.Email);
-            if (sameEmailIdx == -1) throw new ConflictException();
+            if (sameEmailIdx != -1) throw new ConflictException();
             
             _repository.Add(new User(form.Name, form.Email, form.Password));
         }

@@ -14,7 +14,7 @@ namespace acs.tests.Service.Tests {
         public void Test1_OnValidGroupRegisterShouldCallAdd()
         {
             var user = new User("Wawei", "soywawei@yahoo.com.ar", "password");
-            var userMock = new Mock<UserRepository>(MockBehavior.Strict);
+            var userMock = new Mock<IUserRepository>(MockBehavior.Strict);
             var groupMock = new Mock<GroupRepository>(MockBehavior.Strict);
             
             groupMock.Setup(x => x.Add(It.IsAny<Group>())).Verifiable();
@@ -30,7 +30,7 @@ namespace acs.tests.Service.Tests {
         [Fact]
         public void Test2_OnUserNotAddedShouldThrowArgumentException()
         {
-            var userMock = new Mock<UserRepository>(MockBehavior.Strict);
+            var userMock = new Mock<IUserRepository>(MockBehavior.Strict);
             var groupMock = new Mock<GroupRepository>(MockBehavior.Strict);
             var service = new GroupService(groupMock.Object, userMock.Object);
             
