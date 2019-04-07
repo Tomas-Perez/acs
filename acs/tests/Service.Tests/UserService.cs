@@ -5,7 +5,6 @@ using acs.Model;
 using acs.Repository;
 using acs.Service;
 using acs.tests.Service.Tests.Helpers;
-using Moq;
 using Xunit;
 
 namespace acs.tests.Service.Tests
