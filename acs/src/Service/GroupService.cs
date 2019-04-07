@@ -1,15 +1,17 @@
 using System;
 using acs.Model;
 using acs.Repository;
+using acs.Exception;
+
 
 namespace acs.Service
 {
     public class GroupService
     {
-        private readonly GroupRepository _groupRepository;
+        private readonly IGroupRepository _groupRepository;
         private readonly IUserRepository _userRepository;
 
-        public GroupService(GroupRepository groupRepository, IUserRepository userRepository)
+        public GroupService(IGroupRepository groupRepository, IUserRepository userRepository)
         {
             _groupRepository = groupRepository;
             _userRepository = userRepository;
@@ -21,7 +23,7 @@ namespace acs.Service
             {
                 _userRepository.Get(groupForm.Owner);
             }
-            catch (DllNotFoundException error)
+            catch (NotFoundException error)
             {
                 throw new ArgumentException("User does not exist");
             }

@@ -5,7 +5,7 @@ using acs.Model;
 
 namespace acs.Repository
 {
-    public class GroupRepository
+    public class GroupRepositoryInMemory : IGroupRepository
     {
         private readonly Dictionary<Guid, Group> _groups = new Dictionary<Guid, Group>();
 
@@ -53,5 +53,16 @@ namespace acs.Repository
         {
             return _groups.Count;
         }
+    }
+}
+
+namespace acs.Repository {
+    public interface IGroupRepository {
+        bool IsEmpty();
+        void Add(Group group);
+        Group Get(Guid id);
+        void Remove(Guid id);
+        void Update(Group group);
+        int AmountOfGroups();
     }
 }

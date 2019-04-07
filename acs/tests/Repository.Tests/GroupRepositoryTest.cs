@@ -12,7 +12,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test1_GroupRepositoryWhenInitializedShouldBeEmpty()
         {
-            var repository = new GroupRepository();
+            var repository = new GroupRepositoryInMemory();
             
             Assert.True(repository.IsEmpty());
         }
@@ -20,7 +20,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test2_GroupRepositoryWhenAddedAGroupShouldNotBeEmpty()
         {
-            var repository = new GroupRepository();
+            var repository = new GroupRepositoryInMemory();
             repository.Add(new Group("group", Guid.NewGuid()));
             
             Assert.False(repository.IsEmpty());
@@ -29,7 +29,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test3_GroupRepositoryWhenAddedAGroupShouldContainIt()
         {
-            var repository = new GroupRepository();
+            var repository = new GroupRepositoryInMemory();
             var group = new Group("group", Guid.NewGuid());
             repository.Add(group);
             
@@ -39,7 +39,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test4_GroupRepositoryWhenRemovedItsOnlyGroupShouldBeEmpty()
         {
-            var repository = new GroupRepository();
+            var repository = new GroupRepositoryInMemory();
             var group = new Group("group", Guid.NewGuid());
             repository.Add(group);
             repository.Remove(group.Id);
@@ -50,7 +50,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test5_GroupRepositoryWhenAskedForAGroupThatItDoesNotContainShouldThrowNotFoundException()
         {
-            var repository = new GroupRepository();
+            var repository = new GroupRepositoryInMemory();
             
             Assert.Throws<NotFoundException>(() => repository.Get(Guid.NewGuid()));
         }
@@ -58,7 +58,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test6_GroupRepositoryWhenRemovedAGroupShouldNoLongerContainIt()
         {
-            var repository = new GroupRepository();
+            var repository = new GroupRepositoryInMemory();
             var group = new Group("group", Guid.NewGuid());
             repository.Add(group);
             repository.Remove(group.Id);
@@ -69,7 +69,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test7_GroupRepositoryWhenRemovedAGroupItDoesNotContainShouldThrowNotFoundException()
         {
-            var repository = new GroupRepository();
+            var repository = new GroupRepositoryInMemory();
             
             Assert.Throws<NotFoundException>(() => repository.Remove(Guid.NewGuid()));
         }
@@ -77,7 +77,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test8_GroupRepositoryWhenUpdatedAGroupShouldContainTheUpdatedVersion()
         {
-            var repository = new GroupRepository();
+            var repository = new GroupRepositoryInMemory();
             var group = new Group("group", Guid.NewGuid());
             repository.Add(group);
             var updatedGroup = group.UpdateName("better_group");
@@ -90,7 +90,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test9_GroupRepositoryWhenAddedAGroupItAlreadyContainsShouldThrowConflictException()
         {
-            var repository = new GroupRepository();
+            var repository = new GroupRepositoryInMemory();
             var group = new Group("group", Guid.NewGuid());
             repository.Add(group);
             
@@ -100,7 +100,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test10_GroupRepositoryWhenUpdatedAGroupItDoesNotContainShouldThrowNotFoundException()
         {
-            var repository = new GroupRepository();
+            var repository = new GroupRepositoryInMemory();
             var group = new Group("group", Guid.NewGuid());
             
             Assert.Throws<NotFoundException>(() => repository.Update(group));
@@ -109,7 +109,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test11_GroupRepositoryWhenUpdatedAGroupShouldHaveTheSameSize()
         {
-            var repository = new GroupRepository();
+            var repository = new GroupRepositoryInMemory();
             var group = new Group("group", Guid.NewGuid());
             repository.Add(group);
             repository.Update(group.UpdateName("better_group"));
@@ -120,7 +120,7 @@ namespace acs.tests.Repository.Tests
         [Fact]
         public void Test12_AGroupWhenItHasNoMembersShouldBeDeletedFromRepository()
         {
-            var repository = new GroupRepository();
+            var repository = new GroupRepositoryInMemory();
             var owner = Guid.NewGuid();
             var group = new Group("group", owner);
             repository.Add(group);
