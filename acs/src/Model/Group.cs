@@ -8,10 +8,10 @@ namespace acs.Model
     // Immutable
     public class Group
     {
-        public Guid Id { get; }
-        public string Name { get; }
-        public Guid Owner { get; }
-        public ImmutableList<Guid> Members { get; }
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
+        public Guid Owner { get; private set; }
+        public ImmutableList<Guid> Members { get; private set; }
         
         public Group(string name, Guid owner)
         {

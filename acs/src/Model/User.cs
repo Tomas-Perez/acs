@@ -4,10 +4,10 @@ namespace acs.Model
 {
     public class User
     {
-        public Guid Id { get; }
-        public string Name { get; }
-        public string Email { get;  }
-        public string Password { get; }
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
+        public string Email { get;  private set; }
+        public string Password { get; private set; }
 
         public User(string name, string email, string password)
         {
