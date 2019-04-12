@@ -18,7 +18,7 @@ Query OK, 0 rows affected, 1 warning (0.01 sec)
 mysql> \q
 Bye
 ```
-- Login as the user and create the table:
+- Login as the user and create the database:
 ```
 $ mysql -u user -p
 Enter password: password
