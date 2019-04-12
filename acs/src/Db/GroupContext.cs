@@ -21,6 +21,8 @@ namespace acs.Db
             modelBuilder.Entity<Group>(entity =>
             {
                 entity.HasKey(e => e.Id);
+                entity.HasMany(e => e.Members);
+                entity.HasOne(e => e.Owner);
                 //TODO relations to user (owner and members)
             });
         }

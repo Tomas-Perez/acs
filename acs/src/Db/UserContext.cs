@@ -18,7 +18,9 @@ namespace acs.Db
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>(entity => { entity.HasKey(e => e.Id); });
+            modelBuilder.Entity<User>(entity => { 
+                entity.HasKey(e => e.Id);
+            });
         }
 
 

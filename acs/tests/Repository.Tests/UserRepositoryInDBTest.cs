@@ -10,18 +10,23 @@ namespace acs.tests.Repository.Tests
 {
     public class UserRepositoryInDbTest : IDisposable
     {
-        private readonly UserContext _userContext;        
+        private readonly UserContext _userContext;    
+        private readonly GroupContext _groupContext;    
         
         public UserRepositoryInDbTest()
         {
             _userContext = new UserContext();
-            _userContext.Database.EnsureCreated();
+            _groupContext = new GroupContext();
+            _groupContext.Database.EnsureCreated();
         }
 
         public void Dispose()
         {
-            _userContext.Database.ExecuteSqlCommand("drop table users");
+            _userContext.Database.ExecuteSqlCommand("set foreign_key_checks = 0");
+            _userContext.Database.ExecuteSqlCommand("drop table if exists Users, Groups, User");
+            _userContext.Database.ExecuteSqlCommand("set foreign_key_checks = 1");
             _userContext.Dispose();
+            _groupContext.Dispose();
         }
 
         [Fact]
@@ -42,25 +47,14 @@ namespace acs.tests.Repository.Tests
         }
 
         [Fact]
-        public void Test3_LoneUserIsRemovedAllShouldBeEmpty()
-        {
-            var user = new User("Mark", "mark@marko.com", "1234");
-            var repository = new UserRepositoryInDb(_userContext);
-            
-            repository.Add(user);
-            repository.Remove(user.Id);
-            Assert.Empty(repository.All());
-        }
-
-        [Fact]
-        public void Test4_TryingToRemoveMissingUserShouldThrowNotFoundException()
+        public void Test3_TryingToRemoveMissingUserShouldThrowNotFoundException()
         {
             var repository = new UserRepositoryInDb(_userContext);
             Assert.Throws<NotFoundException>(() => repository.Remove(Guid.NewGuid()));
         }
 
         [Fact]
-        public void Test5_AddingAnExistingUserShouldThrowConflictException()
+        public void Test4_AddingAnExistingUserShouldThrowConflictException()
         {
             var user = new User("Mark", "mark@marko.com", "1234");
             var repository = new UserRepositoryInDb(_userContext);
@@ -70,7 +64,7 @@ namespace acs.tests.Repository.Tests
         }
 
         [Fact]
-        public void Test6_UpdatingAnExistingUserShouldMaintainAllSize()
+        public void Test5_UpdatingAnExistingUserShouldMaintainAllSize()
         {
             var user = new User("Mark", "mark@marko.com", "1234");
             var updated = new User(user.Id, "Mark", "mark@marko.com.ar", "1234");

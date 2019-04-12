@@ -8,7 +8,6 @@ namespace acs.Model
         public string Name { get; private set; }
         public string Email { get;  private set; }
         public string Password { get; private set; }
-
         public User(string name, string email, string password)
         {
             this.Id = Guid.NewGuid();
@@ -23,6 +22,10 @@ namespace acs.Model
             this.Name = name;
             this.Email = email;
             this.Password = password;
+        }
+        
+        public User(){
+            this.Id = Guid.NewGuid();
         }
 
         protected bool Equals(User other)

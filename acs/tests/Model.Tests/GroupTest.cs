@@ -10,9 +10,9 @@ namespace acs.tests.Model.Tests
         [Fact]
         public void Test1_GroupShouldBeImmutable()
         {
-            var owner = Guid.NewGuid();
+            var owner = new User();
             var group = new Group("group", owner);
-            var newOwner = Guid.NewGuid();
+            var newOwner = new User();
             group.UpdateName("hello").AddMember(newOwner).UpdateOwner(newOwner);
             
             Assert.Equal("group", group.Name);
@@ -23,8 +23,8 @@ namespace acs.tests.Model.Tests
         [Fact]
         public void Test2_GroupWhenUpdatedShouldReturnANewGroupWithUpdatedValues()
         {
-            var group = new Group("group", Guid.NewGuid());
-            var newOwner = Guid.NewGuid();
+            var group = new Group("group", new User());
+            var newOwner = new User();
             var newGroup = group.UpdateName("hello").AddMember(newOwner).UpdateOwner(newOwner);
             
             Assert.Equal("hello", newGroup.Name);
@@ -34,8 +34,8 @@ namespace acs.tests.Model.Tests
         [Fact]
         public void Test3_GroupWhenAddedAMemberShouldReturnANewGroupWithThatMember()
         {
-            var member = Guid.NewGuid();
-            var group = new Group("group", Guid.NewGuid()).AddMember(member);
+            var member = new User();
+            var group = new Group("group", new User()).AddMember(member);
             
             Assert.True(group.Contains(member));
         }
@@ -43,8 +43,8 @@ namespace acs.tests.Model.Tests
         [Fact]
         public void Test4_GroupWhenRemovedAMemberShouldNoLongerHaveThatMember()
         {
-            var member = Guid.NewGuid();
-            var group = new Group("group", Guid.NewGuid()).AddMember(member).RemoveMember(member);
+            var member = new User();
+            var group = new Group("group", new User()).AddMember(member).RemoveMember(member);
             
             Assert.False(group.Contains(member));
         }
@@ -52,8 +52,8 @@ namespace acs.tests.Model.Tests
         [Fact]
         public void Test5_GroupWhenRemovedTheOwnerShouldReplaceItWithOneOfTheMembers()
         {
-            var owner = Guid.NewGuid();
-            var member = Guid.NewGuid();
+            var owner = new User();
+            var member = new User();
             var group = new Group("group", owner).AddMember(member).RemoveMember(owner);
             
             Assert.Equal(member, group.Owner);
@@ -62,7 +62,7 @@ namespace acs.tests.Model.Tests
         [Fact]
         public void Test6_GroupWhenRemovedTheOnlyMemberShouldBeEmpty()
         {
-            var owner = Guid.NewGuid();
+            var owner = new User();
             var group = new Group("group", owner).RemoveMember(owner);
             
             Assert.True(group.IsEmpty());
@@ -71,7 +71,7 @@ namespace acs.tests.Model.Tests
         [Fact]
         public void Test7_GroupWhenCreatedShouldHaveTheOwnerAsAMember()
         {
-            var owner = Guid.NewGuid();
+            var owner =new User();
             var group = new Group("group", owner);
             
             Assert.True(group.Contains(owner));
@@ -81,7 +81,7 @@ namespace acs.tests.Model.Tests
         [Fact]
         public void Test8_GroupWhenAddedAMemberThatIsAlreadyAMemberShouldThrowConflictException()
         {
-            var owner = Guid.NewGuid();
+            var owner = new User();
             var group = new Group("group", owner);
             
             Assert.Throws<ConflictException>(() => group.AddMember(owner));
@@ -90,17 +90,17 @@ namespace acs.tests.Model.Tests
         [Fact]
         public void Test9_GroupWhenRemovedAMemberThatIsNotAMemberShouldThrowNotFoundException()
         {
-            var group = new Group("group", Guid.NewGuid());
+            var group = new Group("group", new User());
             
-            Assert.Throws<NotFoundException>(() => group.RemoveMember(Guid.NewGuid()));
+            Assert.Throws<NotFoundException>(() => group.RemoveMember(new User()));
         }
         
         [Fact]
         public void Test10_GroupWhenUpdatedAnOwnerWhoIsNotAMemberShouldThrowNotFoundException()
         {
-            var group = new Group("group", Guid.NewGuid());
+            var group = new Group("group", new User());
             
-            Assert.Throws<NotFoundException>(() => group.UpdateOwner(Guid.NewGuid()));
+            Assert.Throws<NotFoundException>(() => group.UpdateOwner(new User()));
         }
         
     }
