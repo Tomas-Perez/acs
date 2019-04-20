@@ -25,6 +25,10 @@ namespace acs.Model
             this.Password = password;
         }
 
+        public User() {
+            this.Id = Guid.NewGuid();
+        }
+
         protected bool Equals(User other)
         {
             return Id.Equals(other.Id) && string.Equals(Name, other.Name) && string.Equals(Email, other.Email) && string.Equals(Password, other.Password);

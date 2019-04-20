@@ -5,9 +5,9 @@ namespace acs.Model
     public class GroupForm
     {
         public string Name { get; }
-        public Guid Owner{ get; }
+        public User Owner{ get; }
 
-        public GroupForm(string name, Guid owner)
+        public GroupForm(string name, User owner)
         {
             name = Name;
             Owner = owner;
