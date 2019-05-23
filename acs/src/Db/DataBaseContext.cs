@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace acs.Db
 {
-    public class UserContext : DbContext
+    public class DatabaseContext : DbContext
     {
-        public UserContext() : base()
+        public DatabaseContext() : base()
         {
         }
 
@@ -19,9 +19,17 @@ namespace acs.Db
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>(entity => { entity.HasKey(e => e.Id); });
+
+            modelBuilder.Entity<Group>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasMany(m => m.Members).WithOne();
+                entity.HasOne(o => o.Owner).WithOne().HasForeignKey<User>("OwnerId");
+            });
         }
 
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Group> Groups { get; set; }
     }
 }

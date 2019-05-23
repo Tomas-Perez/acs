@@ -21,7 +21,7 @@ namespace acs.Service
         {
             try
             {
-                _userRepository.Get(groupForm.Owner);
+                _userRepository.Get(groupForm.Owner.Id);
             }
             catch (NotFoundException error)
             {

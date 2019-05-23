@@ -20,7 +20,7 @@ namespace acs.tests.Service.Tests {
 
             var service = new GroupService(groupMock, userMock);
 
-            service.Register(new GroupForm("Grupo1", user.Id));
+            service.Register(new GroupForm("Grupo1", user));
 
             Assert.True(groupMock.AddCalled);
         }
@@ -33,7 +33,7 @@ namespace acs.tests.Service.Tests {
             var groupMock = new VerifiableMockGroupRepository();
             var service = new GroupService(groupMock, userMock);
             
-            var form = new GroupForm("Grupo1", Guid.NewGuid());
+            var form = new GroupForm("Grupo1", new User());
 
             Assert.Throws<ArgumentException>(() => service.Register(form));
         }

@@ -8,7 +8,7 @@ namespace acs
         static void Main(string[] args)
         {
      
-            using (var ctx = new UserContext())
+            using (var ctx = new DatabaseContext())
             {
                 ctx.Database.EnsureCreated();
                 
