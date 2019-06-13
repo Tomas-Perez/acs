@@ -30,5 +30,33 @@ namespace acs.Service
 
             _groupRepository.Add(new Group(groupForm.Name, groupForm.Owner));
         }
+
+        public Group Find(Guid id)
+        {
+            try
+            {
+                return _groupRepository.Get(id);
+            }
+            catch (NotFoundException e)
+            {
+                throw new ArgumentException("Group does not exist");
+            }
+        }
+
+        public Group AddMember(Guid groupId, Guid userId)
+        {
+            try
+            {
+                var group = _groupRepository.Get(groupId);
+                group.AddMember(_userRepository.Get(userId));
+                _groupRepository.Update(group);
+                return group;
+            }
+            catch (NotFoundException e)
+            {
+                throw new ArgumentException("Group or user does not exist");
+
+            }
+        }
     }
 }

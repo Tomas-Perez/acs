@@ -35,5 +35,17 @@ namespace acs.Service
                 return false;
             }
         }
+
+        public User Find(Guid id)
+        {
+            try
+            {
+                return _repository.Get(id);
+            }
+            catch (NotFoundException error)
+            {
+                throw new  ArgumentException("User not found");
+            }
+        }
     }
 }
