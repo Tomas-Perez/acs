@@ -9,7 +9,7 @@ namespace acs.Model
 
         public GroupForm(string name, User owner)
         {
-            name = Name;
+            Name = name;
             Owner = owner;
         }
     }

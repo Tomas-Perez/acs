@@ -2,10 +2,10 @@ namespace acs.Model
 {
     public class UserForm
     {
-        public string Name { get; }
-        public string Email { get; }
-        public string Password { get; }
-        public string ConfirmPassword { get; }
+        public string Name;
+        public string Email;
+        public string Password;
+        public string ConfirmPassword;
         
 
         public UserForm(string name, string email, string password, string confirmPassword)
@@ -14,6 +14,10 @@ namespace acs.Model
             Email = email;
             Password = password;
             ConfirmPassword = confirmPassword;
+        }
+
+        public UserForm()
+        {
         }
     }
 }
