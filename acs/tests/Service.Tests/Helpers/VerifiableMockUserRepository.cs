@@ -19,9 +19,10 @@ namespace acs.tests.Service.Tests.Helpers
             return new List<User>();
         }
 
-        public void Add(User user)
+        public Guid Add(User user)
         {
             AllCalled = true;
+            return user.Id;
         }
 
         public void Update(User user)

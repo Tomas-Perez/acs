@@ -18,8 +18,9 @@ namespace acs.tests.Service.Tests.Helpers
             EmptyCalled = true;
             return true;
         }
-        public void Add(Group group) {
+        public Guid Add(Group group) {
             AddCalled = true;
+            return group.Id;
         }
         public Group Get(Guid id) {
             GetCalled = true;

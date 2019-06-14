@@ -14,11 +14,12 @@ namespace acs.Repository
             return _groups.Count == 0;
         }
 
-        public void Add(Group group)
+        public Guid Add(Group group)
         {
             try
             {
                 _groups.Add(group.Id, group);
+                return group.Id;
             }
             catch (ArgumentException exc)
             {
@@ -59,7 +60,7 @@ namespace acs.Repository
 namespace acs.Repository {
     public interface IGroupRepository {
         bool IsEmpty();
-        void Add(Group group);
+        Guid Add(Group group);
         Group Get(Guid id);
         void Remove(Guid id);
         void Update(Group group);

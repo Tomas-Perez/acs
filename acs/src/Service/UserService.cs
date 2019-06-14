@@ -14,7 +14,7 @@ namespace acs.Service
             _repository = repository;
         }
 
-        public void Register(UserForm form)
+        public Guid Register(UserForm form)
         {
             if (form.Password != form.ConfirmPassword) throw new ArgumentException("Passwords do not match");
             if (!IsValidEmail(form.Email)) throw new ArgumentException("Invalid email");
@@ -22,7 +22,7 @@ namespace acs.Service
             var sameEmailIdx = _repository.All().FindIndex(u => u.Email == form.Email);
             if (sameEmailIdx != -1) throw new ConflictException();
             
-            _repository.Add(new User(form.Name, form.Email, form.Password));
+            return _repository.Add(new User(form.Name, form.Email, form.Password));
         }
         
         private bool IsValidEmail(string email)

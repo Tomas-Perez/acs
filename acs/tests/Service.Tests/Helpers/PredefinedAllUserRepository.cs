@@ -18,8 +18,8 @@ namespace acs.tests.Service.Tests.Helpers
         {
             return _onAll;
         }
-
-        public void Add(User user)
+    
+        public Guid Add(User user)
         {
             throw new NotImplementedException();
         }

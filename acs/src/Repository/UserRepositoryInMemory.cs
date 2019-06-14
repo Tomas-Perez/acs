@@ -15,11 +15,12 @@ namespace acs.Repository
             return _users.Values.ToList();
         }
 
-        public void Add(User user)
+        public Guid Add(User user)
         {
             try
             {
                 _users.Add(user.Id, user);
+                return user.Id;
             }
             catch (ArgumentException exc)
             {
@@ -54,7 +55,7 @@ namespace acs.Repository
     public interface IUserRepository
     {
         List<User> All();
-        void Add(User user);
+        Guid Add(User user);
         void Update(User user);
         void Remove(Guid id);
         User Get(Guid id);

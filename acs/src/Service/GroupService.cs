@@ -17,7 +17,7 @@ namespace acs.Service
             _userRepository = userRepository;
         }
 
-        public void Register(GroupForm groupForm)
+        public Guid Register(GroupForm groupForm)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace acs.Service
                 throw new ArgumentException("User does not exist");
             }
 
-            _groupRepository.Add(new Group(groupForm.Name, groupForm.Owner));
+            return _groupRepository.Add(new Group(groupForm.Name, groupForm.Owner));
         }
 
         public Group Find(Guid id)
@@ -57,6 +57,11 @@ namespace acs.Service
                 throw new ArgumentException("Group or user does not exist");
 
             }
+        }
+
+        public void Remove(Guid groupId)
+        {
+            _groupRepository.Remove(groupId);
         }
     }
 }

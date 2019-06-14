@@ -18,7 +18,6 @@ namespace acs.Model
 
         public UserForm()
         {
-            
         }
     }
 }

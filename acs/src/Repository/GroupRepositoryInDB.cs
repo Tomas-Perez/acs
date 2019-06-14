@@ -19,11 +19,12 @@ namespace acs.Repository
             return _databaseContext.Groups.ToList().Count == 0;
         }
 
-        public void Add(Group group) {
+        public Guid Add(Group group) {
             try
             {
-                _databaseContext.Groups.Add(group);
+                var newGroup = _databaseContext.Groups.Add(@group);
                 _databaseContext.SaveChanges();
+                return newGroup.Entity.Id;
             }
             catch (DbUpdateException exc)
             {
@@ -32,7 +33,7 @@ namespace acs.Repository
         }
 
         public Group Get(Guid id) {
-            var value = _databaseContext.Groups.FirstOrDefault(g => g.Id == id);
+            var value = _databaseContext.Groups.Include(group => group.Owner).FirstOrDefault(g => g.Id == id);
             if (value == null) throw new NotFoundException();
             else return value;
         }

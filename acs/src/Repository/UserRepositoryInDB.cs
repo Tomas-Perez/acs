@@ -22,12 +22,13 @@ namespace acs.Repository
             return _databaseContext.Users.ToList();
         }
 
-        public void Add(User user)
+        public Guid Add(User user)
         {
             try
             {
-                _databaseContext.Users.Add(user);
+                var entityEntry = _databaseContext.Users.Add(user);
                 _databaseContext.SaveChanges();
+                return entityEntry.Entity.Id;
             }
             catch (DbUpdateException exc)
             {
