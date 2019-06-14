@@ -35,6 +35,7 @@ namespace acs.Routes
             var groupRepositoryInDb = new GroupRepositoryInDB(_databaseContext);
             var userService = new UserService(userRepositoryInDb);
             var groupService = new GroupService(groupRepositoryInDb, userRepositoryInDb);
+            
             Get("/check",
                 _ => HttpStatusCode.OK);
             
@@ -78,6 +79,21 @@ namespace acs.Routes
                 {
                     var group = groupService.Find(parameters.id);
                     var response = (Response) new JavaScriptSerializer().Serialize(group);
+                    response.StatusCode = HttpStatusCode.Found;
+                    return response;
+                }
+                catch (ArgumentException err)
+                {
+                    return HttpStatusCode.NotFound;
+                }
+            });
+            
+            Get("/users/{id}", parameters =>
+            {
+                try
+                {
+                    var user = userService.Find(parameters.id);
+                    var response = (Response) new JavaScriptSerializer().Serialize(user);
                     response.StatusCode = HttpStatusCode.Found;
                     return response;
                 }
