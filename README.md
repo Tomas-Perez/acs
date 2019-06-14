@@ -4,6 +4,8 @@ Project for TDD class
 
 ## Creating Database
 
+### Locally
+
 - Install mysql
 - Start mysql daemon: `$ mysqld`
 - Login as root (in another console): 
@@ -24,4 +26,29 @@ $ mysql -u user -p
 Enter password: password
 mysql> CREATE DATABASE partytalk;
 Query OK, 1 row affected (0.01 sec)
+```
+
+### Docker
+
+- Run the container:
+```
+$ docker run --name NAME -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
+```
+- Execute:
+```
+$ docker exec -it CONTAINER /bin/bash
+```
+- Login as root:
+```
+$ mysql -u root -p
+Enter password: root
+```
+- Create the user:
+```
+mysql> CREATE USER 'user'@'%' IDENTIFIED BY 'password';
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'user'@'%' WITH GRANT OPTION;
+```
+- Create the database:
+```
+mysql> CREATE DATABASE partytalk;
 ```
