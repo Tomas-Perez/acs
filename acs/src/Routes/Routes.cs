@@ -47,7 +47,7 @@ namespace acs.Routes
                     response.StatusCode = HttpStatusCode.Created;
                     return response;
                 }
-                catch (ArgumentException e)
+                catch (ConflictException e)
                 {
                     return HttpStatusCode.Conflict;
                 }
@@ -98,6 +98,10 @@ namespace acs.Routes
                 catch (ArgumentException e)
                 {
                     return HttpStatusCode.NotFound;
+                }
+                catch (ConflictException e)
+                {
+                    return HttpStatusCode.Conflict;
                 }
             });
 

@@ -8,16 +8,11 @@ namespace acs.tests.Model.Tests
     public class GroupTest
     {
         [Fact]
-        public void Test1_GroupShouldBeImmutable()
+        public void Test1_GroupWhenUpdatedAnOwnerWhoIsNotAMemberShouldThrowNotFoundException()
         {
-            var owner = new User();
-            var group = new Group("group", owner);
-            var newOwner = new User();
-            group.UpdateName("hello").AddMember(newOwner).UpdateOwner(newOwner);
+            var group = new Group("group", new User());
             
-            Assert.Equal("group", group.Name);
-            Assert.Equal(owner, group.Owner);
-            Assert.Single(group.Members);
+            Assert.Throws<NotFoundException>(() => group.UpdateOwner(new User()));
         }
 
         [Fact]
@@ -94,14 +89,7 @@ namespace acs.tests.Model.Tests
             
             Assert.Throws<NotFoundException>(() => group.RemoveMember(new User()));
         }
-        
-        [Fact]
-        public void Test10_GroupWhenUpdatedAnOwnerWhoIsNotAMemberShouldThrowNotFoundException()
-        {
-            var group = new Group("group", new User());
-            
-            Assert.Throws<NotFoundException>(() => group.UpdateOwner(new User()));
-        }
+       
         
     }
 }
