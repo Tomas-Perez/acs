@@ -59,7 +59,7 @@ mysql> CREATE DATABASE partytalk;
 ```
 docker pull dwape/partytalk-light
 ```
-- Run the container
+- Run the container:
 ```
 docker run -i -p 1234:1234 -e DB_SERVER=[Database_IP] dwape/partytalk-light
 ```
