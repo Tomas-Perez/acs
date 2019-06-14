@@ -55,7 +55,9 @@ namespace acs.Routes
                 catch (ArgumentException e)
                 {
                     // Email is invalid or passwords do not match
-                    return HttpStatusCode.BadRequest;
+                    var response = (Response) e.Message;
+                    response.StatusCode = HttpStatusCode.BadRequest;
+                    return response;
                 }
             });
             
