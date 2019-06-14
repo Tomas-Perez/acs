@@ -33,7 +33,10 @@ namespace acs.Repository
         }
 
         public Group Get(Guid id) {
-            var value = _databaseContext.Groups.Include(group => group.Owner).FirstOrDefault(g => g.Id == id);
+            var value = _databaseContext.Groups
+                .Include(group => group.Owner)
+                .Include(group => group.Members)
+                .FirstOrDefault(g => g.Id == id);
             if (value == null) throw new NotFoundException();
             else return value;
         }
@@ -46,7 +49,7 @@ namespace acs.Repository
 
         public void Update(Group group) {
             Remove(group.Id);
-            if(!group.Members.IsEmpty) {
+            if(group.Members.Count != 0) {
                 Add(group);
             }
         }

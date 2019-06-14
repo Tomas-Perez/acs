@@ -48,8 +48,8 @@ namespace acs.Service
             try
             {
                 var group = _groupRepository.Get(groupId);
-                group.AddMember(_userRepository.Get(userId));
-                _groupRepository.Update(group);
+                var newGroup = @group.AddMember(_userRepository.Get(userId));
+                _groupRepository.Update(newGroup);
                 return group;
             }
             catch (NotFoundException e)
