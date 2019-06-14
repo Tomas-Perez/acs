@@ -133,6 +133,19 @@ namespace acs.Routes
                     return HttpStatusCode.NotFound;
                 }
             });
+            
+            Delete("/users/{id}", parameters =>
+            {
+                try
+                {
+                    userService.Remove(parameters.id);
+                    return HttpStatusCode.OK;
+                }
+                catch (ArgumentException err)
+                {
+                    return HttpStatusCode.NotFound;
+                }
+            });
         }
     }
 

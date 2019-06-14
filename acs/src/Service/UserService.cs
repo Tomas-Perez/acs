@@ -47,5 +47,10 @@ namespace acs.Service
                 throw new  ArgumentException("User not found");
             }
         }
+
+        public void Remove(Guid id)
+        {
+            _repository.Remove(id);
+        }
     }
 }
