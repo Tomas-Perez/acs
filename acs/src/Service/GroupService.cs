@@ -61,7 +61,15 @@ namespace acs.Service
 
         public void Remove(Guid groupId)
         {
-            _groupRepository.Remove(groupId);
+            try
+            {
+                _groupRepository.Remove(groupId);
+            }
+            catch (NotFoundException error)
+            {
+                throw new ArgumentException("Group does not exist");
+            }
+           
         }
     }
 }

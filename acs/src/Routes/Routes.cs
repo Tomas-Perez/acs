@@ -52,6 +52,11 @@ namespace acs.Routes
                 {
                     return HttpStatusCode.Conflict;
                 }
+                catch (ArgumentException e)
+                {
+                    // Email is invalid or passwords do not match
+                    return HttpStatusCode.BadRequest;
+                }
             });
             
             Post("/groups", _ =>
