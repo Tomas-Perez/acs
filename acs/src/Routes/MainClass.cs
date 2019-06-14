@@ -15,6 +15,7 @@ namespace acs.Routes
                 host.Start();
                 Console.WriteLine("Running on http://localhost:1234");
                 Console.ReadLine();
+                host.Stop();
             }
 //            Console.WriteLine("Hello");
         }

@@ -20,4 +20,4 @@ WORKDIR /acs/acs
 
 ENTRYPOINT \
   git pull && \
-  dotnet run DB_SERVER
+  dotnet run $DB_SERVER
