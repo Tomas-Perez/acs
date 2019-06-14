@@ -55,7 +55,6 @@ namespace acs.Db
             var server = "localhost";
             var args = Environment.GetCommandLineArgs();
             if (args.Length > 1) server = args[1];
-            Console.WriteLine($"Database running on http://{server}:3306"); // Remove
             Config.Add("server", server);
             Config.Add("database", "partytalk");
             Config.Add("user", "user");
